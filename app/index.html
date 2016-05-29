@@ -1,0 +1,226 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>asm.js - Roman Kollatschny</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <!-- Theme -->
+    <link rel="stylesheet" href="css/blood.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!-- Own styles -->
+    <style>
+      .green { color: #2ecc71}
+      .blue {color: #3498db}
+      .orange {color: #e67e22}
+      .yellow {color: #f1c40f}
+      .red {color: #c0392b}
+    </style>
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+
+        <!-- Start -->
+        <section>
+          <h1>superfast javascript</h1>
+          <p>Roman Kollatschny</p>
+          <small>Rich Media System - SS2016 - Hochschule der Medien</small>
+        </section>
+
+        <!-- Demo -->
+        <section>
+          <h1>Demo Time</h1>
+          <ul>
+            <li><a href="https://developer.microsoft.com/en-us/microsoft-edge/testdrive/demos/chess/">Chess Demo</a></li>
+            <li><a href="http://beta.unity3d.com/jonas/AngryBots/">Unity</a></li>
+          </ul>
+        </section>
+
+        <!-- Intro -->
+        <section>
+          <h2>How does it work?</h2>
+          <ul>
+            <li>No plugins</li>
+            <li>No magic/voodoo</li>
+            <br>
+            <li>
+              Answer:
+              <strong class="orange">asm.js</strong>
+            </li>
+          </ul>
+        </section>
+
+        <!-- asm.js facts -->
+        <section>
+          <h2>What is asm.js</h2>
+          <ul>
+            <li>Strict subset of javascript</li>
+            <li>Typed variables</li>
+            <li>Manual memory management</li>
+            <li>AoT compilation</li>
+          </ul>
+        </section>
+
+        <!-- Code example  -->
+        <section>
+          <h2>asm.js code example</h2>
+          <pre><code>function() {
+  'use asm';
+
+  function calc(x, y) {
+    var x = i|0;
+    var y = y|0;
+
+    return (x+y)|0;
+  }
+
+  return calc;
+}</code></pre>
+        </section>
+
+        <!-- Performance -->
+        <section>
+
+          <section>
+            <h2>What about the performance?</h2>
+          </section>
+
+          <section>
+            <h2>Speed comparison</h2>
+            <p>~50% speed of nativ</p>
+            <p>faster then vanilla javascript</p>
+          </section>
+
+          <section>
+            <h2>Moar!</h2>
+            <p>todo</p>
+          </section>
+
+        </section>
+
+        <!-- Compile it -->
+        <section>
+
+          <section>
+            <h2>Who want to code like that?</h2>
+          </section>
+
+          <section data-background-image="img/no_one.jpg">
+            <h2>No one!</h2>
+          </section>
+
+          <section>
+            <h2>Compile it!</h2>
+            <p>We can compile asm.js from <strong>C/C++</strong> using <a href="http://llvm.org/"><strong>LLVM</strong></a> and <a href="http://kripken.github.io/emscripten-site/"><strong>emscripten</strong></a></p>
+            <p><strong class="green">C/C++</strong> =&gt; <strong class="blue">LLVM</strong> =&gt; <strong class="yellow">emscripten</strong> =&gt; <strong class="red">javascript</strong></p>
+            <p>eg <strong>Unreal Engine 3</strong> & <strong>4</strong> or <strong>Unity</strong></p>
+          </section>
+
+          <section>
+            <h2>c++ to javascript</h2>
+            <p>c++ code</p>
+            <pre><code>size_t strlen(char *ptr) {
+  char *curr = ptr;
+  while (*curr != 0) {
+    curr++;
+  }
+  return (curr − ptr);
+}</code></pre>
+          <p>asm.js code</p>
+          <pre><code>function strlen(ptr) {
+  ptr = ptr|0;
+  var curr = 0;
+  curr = ptr;
+  while (MEM8[curr]|0 != 0) {
+    curr = (curr + 1)|0;
+  }
+  return (curr − ptr)|0;
+}</code></pre>
+
+          </section>
+
+        </section>
+
+        <!-- Browsersupport -->
+        <section>
+
+          <section>
+            <h2>But, can i use asm.js?</h2>
+            <p><strong class="orange">Yes</strong>, because asm.js is a subset of javascript</p>
+            <p>every browser can work with the code</p>
+          </section>
+
+          <section>
+            <h2>Browsersupport</h2>
+            <p>57% of the browsers support asm.js</p>
+            <img src="img/can_i_use_asmjs.jpg" alt="">
+          </section>
+
+        </section>
+
+        <!-- Webassembly -->
+        <section>
+          <h2>But, can we go even faster?</h2>
+          <strong>Yep</strong>
+          <p>Check out <strong>webassembly</strong> (wasm), its binary code for the web</p>
+
+          <pre><code>0061 736d 0b00 0000 0474 7970 65d9 a280
+8000 f902 4003 0101 0101 0140 0401 0101
+0100 4002 0101 0101 4003 0101 0100 4001
+0101 0140 0104 0101 4002 0101 0040 0101
+0040 0101 0103 4005 0101 0101 0101 0140
+0601 0101 0101 0101 0140 0701 0101 0101
+0101 0101 4007 0101 0101 0101 0100 4011
+0103 0303 0303 0303 0303 0303 0301 0101
+0100 4006 0101 0101 0101 0040 0501 0101
+0101 0040 0401 0101 0101 0140 0e01 0101
+0101 0103 0101 0101 0101 0301 0340 0103
+0103 4005 0101 0103 0100 4003 0103 0100
+4009 0101 0103 0101 0101 0101 0140 0f01
+0101 0101 0101 0101 0303 0303 0101 0101
+4011 0101 0101 0101 0101 0101 0103 0303
+...</code></pre>
+        </section>
+
+      </div>
+    </div>
+
+    <script src="js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+
+        width: 1280,
+        height: 800,
+
+        history: true,
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+          // { src: '/markdown/marked.js' },
+          // { src: '/markdown/markdown.js' },
+          // { src: '/notes/notes.js', async: true },
+          { src: 'js/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ]
+      });
+    </script>
+  </body>
+</html>
