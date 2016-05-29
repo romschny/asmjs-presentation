@@ -1,0 +1,26 @@
+{
+  "name": "asmjs-presentation",
+  "version": "1.0.0",
+  "description": "asmjs presentation slides",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RomanKol/asmjs-presentation.git"
+  },
+  "keywords": [
+    "asmjs",
+    "presentation"
+  ],
+  "author": "Roman Kollatschny",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RomanKol/asmjs-presentation/issues"
+  },
+  "homepage": "https://github.com/RomanKol/asmjs-presentation#readme",
+  "dependencies": {
+    "express": "^4.13.4"
+  }
+}
