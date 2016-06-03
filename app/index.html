@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <title>asm.js - Roman Kollatschny</title>
+    <title>superfast JavaScript - Roman Kollatschny</title>
 
     <link rel="stylesheet" href="css/reveal.css">
     <!-- Theme -->
@@ -29,6 +29,19 @@
       .orange {color: #e67e22}
       .yellow {color: #f1c40f}
       .red {color: #c0392b}
+      .reveal cite {
+        font-style: italic;
+      }
+      .reveal pre {
+        width: 66.66%;
+      }
+      .reveal img {
+        width: 66.66%;
+        margin: 20px auto;
+      }
+      h2.head {
+        text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25), 0 20px 20px rgba(0, 0, 0, 0.15);
+      }
     </style>
 
   </head>
@@ -38,78 +51,150 @@
 
         <!-- Start -->
         <section>
-          <h1>superfast javascript</h1>
+          <h1>superfast JavaScript</h1>
           <p>Roman Kollatschny</p>
           <small>Rich Media System - SS2016 - Hochschule der Medien</small>
         </section>
 
-        <!-- Demo -->
+        <!-- Slow JS -->
         <section>
-          <h1>Demo Time</h1>
-          <ul>
-            <li><a href="https://developer.microsoft.com/en-us/microsoft-edge/testdrive/demos/chess/">Chess Demo</a></li>
-            <li><a href="http://beta.unity3d.com/jonas/AngryBots/">Unity</a></li>
-          </ul>
+
+          <section>
+            <h2 class="head">Why JavaScript is slow!</h2>
+          </section>
+
+          <section>
+            <h2>Boxing</h2>
+            <p>Wrapping primitives with a corresponding wrapper object</p>
+          </section>
+
+          <section>
+            <h2>JIT compilation</h2>
+            <p>JavaScript compilation just-in-time</p>
+          </section>
+
+          <section>
+            <h2>Garbage collection</h2>
+            <p>Automated garbage collection can be slow</p>
+          </section>
+
+          <section>
+            <h2>Flexible memory layout</h2>
+            <p>Data structures are very flexible, but slow down memory management</p>
+          </section>
+
         </section>
 
-        <!-- Intro -->
+        <!-- Demo -->
         <section>
-          <h2>How does it work?</h2>
+          <h2 class="head">Demo</h2>
           <ul>
-            <li>No plugins</li>
-            <li>No magic/voodoo</li>
-            <br>
-            <li>
-              Answer:
-              <strong class="orange">asm.js</strong>
-            </li>
+            <li><a href="http://beta.unity3d.com/jonas/AngryBots/" target="_blank">Unity</a></li>
+            <li><a href="https://developer.microsoft.com/en-us/microsoft-edge/testdrive/demos/chess/" target="_blank">Chess</a></li>
           </ul>
         </section>
 
         <!-- asm.js facts -->
         <section>
-          <h2>What is asm.js</h2>
-          <ul>
-            <li>Strict subset of javascript</li>
-            <li>Typed variables</li>
-            <li>Manual memory management</li>
-            <li>AoT compilation</li>
-          </ul>
+
+          <section>
+            <h2 class="head">What is asm.js</h2>
+            <cite class="fragment">'an extraordinarily optimizable, low-level subset of JavaScript'</cite>
+          </section>
+
+          <section>
+            <h2>Strict subset of JavaScript</h2>
+            <p>Only numbers</p>
+            <p>No strings, booleans or objects</p>
+          </section>
+
+          <section>
+            <h2>Typed variables</h2>
+            <pre><code>var int1 = 0;
+var int2 = i|0;
+
+var double1 = 0.0;
+var double2 = +d;</code></pre>
+          </section>
+
+          <section>
+            <h2>Manual memory management</h2>
+          </section>
+
+          <section>
+            <h2>Aot compilation</h2>
+            <p>JavaScript only JIT compilation</p>
+          </section>
+
         </section>
 
         <!-- Code example  -->
         <section>
-          <h2>asm.js code example</h2>
-          <pre><code>function() {
+
+          <section>
+            <h2 class="head">Examples</h2>
+          </section>
+
+          <section>
+            <h2>asm.js module structure</h2>
+            <pre><code>function asmModule(stdlib, foreign, heap) {
   'use asm';
 
-  function calc(x, y) {
-    var x = i|0;
-    var y = y|0;
+  // some code
 
-    return (x+y)|0;
+  function doSomething(...) {
+    // more code
+    return something;
   }
 
-  return calc;
+  return doSomething;
 }</code></pre>
+          </section>
+
+          <section>
+            <h2>asm.js example</h2>
+            <pre><code>function DiagModule(stdlib) {
+  'use asm';
+
+  var sqrt = stdlib.Math.sqrt;
+
+  function square(x) {
+    x = +x;
+    return +(x*x);
+  }
+
+  function diag(x, y) {
+    x = +x;
+    y = +y;
+    return +sqrt(square(x) + square(y));
+  }
+
+  return { diag: diag };
+}</code></pre>
+
+<pre class="fragment"><code>var fast = DiagModule(this);   // this === window
+console.log(fast.diag(3, 4));  // 5
+</code></pre>
+          </section>
+
         </section>
 
         <!-- Performance -->
         <section>
 
           <section>
-            <h2>What about the performance?</h2>
+            <h2 class="head">Performance</h2>
           </section>
 
           <section>
             <h2>Speed comparison</h2>
-            <p>~50% speed of nativ</p>
-            <p>faster then vanilla javascript</p>
+            <p>Asm.js can run <strong class="orange">2x</strong> slower than native</p>
+            <p>comparable to Java, C#</p>
           </section>
 
           <section>
-            <h2>Moar!</h2>
-            <p>todo</p>
+            <h2>Benchmarks</h2>
+            <img src="img/benchmarks.png" alt="">
           </section>
 
         </section>
@@ -127,32 +212,9 @@
 
           <section>
             <h2>Compile it!</h2>
-            <p>We can compile asm.js from <strong>C/C++</strong> using <a href="http://llvm.org/"><strong>LLVM</strong></a> and <a href="http://kripken.github.io/emscripten-site/"><strong>emscripten</strong></a></p>
-            <p><strong class="green">C/C++</strong> =&gt; <strong class="blue">LLVM</strong> =&gt; <strong class="yellow">emscripten</strong> =&gt; <strong class="red">javascript</strong></p>
+            <p>We can compile asm.js from eg. <strong>C/C++</strong> using <strong class="blue">LLVM</strong> and <strong class="yellow">emscripten</strong></p>
+            <p><strong class="green">C/C++</strong> =&gt; <strong class="blue">LLVM</strong> =&gt; <strong class="yellow">emscripten</strong> =&gt; <strong class="red">JavaScript</strong></p>
             <p>eg <strong>Unreal Engine 3</strong> & <strong>4</strong> or <strong>Unity</strong></p>
-          </section>
-
-          <section>
-            <h2>c++ to javascript</h2>
-            <p>c++ code</p>
-            <pre><code>size_t strlen(char *ptr) {
-  char *curr = ptr;
-  while (*curr != 0) {
-    curr++;
-  }
-  return (curr − ptr);
-}</code></pre>
-          <p>asm.js code</p>
-          <pre><code>function strlen(ptr) {
-  ptr = ptr|0;
-  var curr = 0;
-  curr = ptr;
-  while (MEM8[curr]|0 != 0) {
-    curr = (curr + 1)|0;
-  }
-  return (curr − ptr)|0;
-}</code></pre>
-
           </section>
 
         </section>
@@ -162,8 +224,8 @@
 
           <section>
             <h2>But, can i use asm.js?</h2>
-            <p><strong class="orange">Yes</strong>, because asm.js is a subset of javascript</p>
-            <p>every browser can work with the code</p>
+            <p class="fragment"><strong class="orange">Yep</strong>, because asm.js is a subset of JavaScript</p>
+            <p class="fragment">runs in all browsers</p>
           </section>
 
           <section>
@@ -177,25 +239,27 @@
         <!-- Webassembly -->
         <section>
           <h2>But, can we go even faster?</h2>
-          <strong>Yep</strong>
-          <p>Check out <strong>webassembly</strong> (wasm), its binary code for the web</p>
+          <strong class="fragment orange">Yep</strong>
+          <p class="fragment">Next step: <strong>webassembly</strong> (wasm), its binary code for the web</p>
+          <p class="fragment">Not in this presentation</p>
+        </section>
 
-          <pre><code>0061 736d 0b00 0000 0474 7970 65d9 a280
-8000 f902 4003 0101 0101 0140 0401 0101
-0100 4002 0101 0101 4003 0101 0100 4001
-0101 0140 0104 0101 4002 0101 0040 0101
-0040 0101 0103 4005 0101 0101 0101 0140
-0601 0101 0101 0101 0140 0701 0101 0101
-0101 0101 4007 0101 0101 0101 0100 4011
-0103 0303 0303 0303 0303 0303 0301 0101
-0100 4006 0101 0101 0101 0040 0501 0101
-0101 0040 0401 0101 0101 0140 0e01 0101
-0101 0103 0101 0101 0101 0301 0340 0103
-0103 4005 0101 0103 0100 4003 0103 0100
-4009 0101 0103 0101 0101 0101 0140 0f01
-0101 0101 0101 0101 0303 0303 0101 0101
-4011 0101 0101 0101 0101 0101 0103 0303
-...</code></pre>
+        <!-- Fin -->
+        <section>
+          <h2 class="head">Questions?</h2>
+        </section>
+
+        <!-- Sources -->
+        <section>
+          <h2>Resources</h2>
+          <ul>
+            <li><a href="http://asmjs.org/">asmjs.org</a></li>
+            <li><a href="http://asmjs.org/">Big Web app? Compile it!</a></li>
+            <li><a href="http://www.2ality.com/2013/02/asm-js.html">asm.js: closing the gap between JavaScript and native</a></li>
+            <li><a href="https://en.wikipedia.org/wiki/Asm.js">Wikipedia Asm.js</a></li>
+            <br>
+            <li><a href="https://github.com/hakimel/reveal.js">reveal.js (presentation framework)</a></li>
+          </ul>
         </section>
 
       </div>
@@ -207,9 +271,6 @@
     <script>
       // More info https://github.com/hakimel/reveal.js#configuration
       Reveal.initialize({
-
-        width: 1280,
-        height: 800,
 
         history: true,
 
